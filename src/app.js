@@ -8,7 +8,10 @@ const { loadUser } = require('./auth');
 
 const ROOT = path.join(__dirname, '..');
 
-function createApp({ dbFile = path.join(ROOT, 'data', 'fshop.db'), uploadDir = path.join(ROOT, 'uploads') } = {}) {
+function createApp({
+  dbFile = process.env.DB_FILE || path.join(ROOT, 'data', 'fshop.db'),
+  uploadDir = process.env.UPLOAD_DIR || path.join(ROOT, 'uploads'),
+} = {}) {
   const db = openDb(dbFile);
   fs.mkdirSync(uploadDir, { recursive: true });
 

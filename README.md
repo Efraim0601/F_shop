@@ -23,10 +23,25 @@ npm start      # http://localhost:3000
 Comptes de démo : `rose@demo.cm` (vendeuse), `client@demo.cm` (client/patient),
 `nutri@demo.cm` (nutritionniste), `cuisine@demo.cm` (service spécialisé).
 
-Variables d'environnement : `PORT` (3000 par défaut), `DB_FILE` (par défaut `data/fshop.db`).
-Les images envoyées sont stockées dans `uploads/`.
+Variables d'environnement : `PORT` (3000 par défaut), `HOST`, `DB_FILE` (par défaut `data/fshop.db`), `UPLOAD_DIR` (par défaut `uploads/`).
 
 Tests : `npm test`
+
+## Déploiement sur un serveur (Ubuntu / Debian)
+
+Connecté en root au serveur :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Efraim0601/F_shop/claude/meal-ordering-platform-c3oibb/deploy/install.sh -o install.sh
+SEED=1 bash install.sh
+```
+
+Le script installe Node.js 22, nginx et l'application (`/opt/f-shop`, données dans `/var/lib/f-shop`), crée le service `f-shop`, puis tente d'obtenir un certificat HTTPS. Le HTTPS est indispensable pour la géolocalisation sur téléphone. Sans nom de domaine, le script utilise `<ip>.sslip.io`, qui pointe automatiquement vers le serveur. L'adresse finale s'affiche à la fin de l'installation.
+
+Options : `DOMAIN=mon-domaine.cm`, `EMAIL=moi@exemple.com`, `HTTPS=0`, `SEED=1` (comptes de démo).
+
+- Mise à jour : `bash /opt/f-shop/deploy/update.sh`
+- Journaux : `journalctl -u f-shop -f`
 
 ## Architecture
 

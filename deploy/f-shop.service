@@ -1,0 +1,22 @@
+[Unit]
+Description=F-Shop (menus et commandes de repas)
+After=network.target
+
+[Service]
+Type=simple
+User=fshop
+WorkingDirectory=/opt/f-shop
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+Environment=DB_FILE=/var/lib/f-shop/fshop.db
+Environment=UPLOAD_DIR=/var/lib/f-shop/uploads
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning src/server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=full
+ReadWritePaths=/var/lib/f-shop
+
+[Install]
+WantedBy=multi-user.target
