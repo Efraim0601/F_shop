@@ -36,9 +36,15 @@ curl -fsSL https://raw.githubusercontent.com/Efraim0601/F_shop/claude/meal-order
 SEED=1 bash install.sh
 ```
 
-Le script installe Node.js 22, nginx et l'application (`/opt/f-shop`, données dans `/var/lib/f-shop`), crée le service `f-shop`, puis tente d'obtenir un certificat HTTPS. Le HTTPS est indispensable pour la géolocalisation sur téléphone. Sans nom de domaine, le script utilise `<ip>.sslip.io`, qui pointe automatiquement vers le serveur. L'adresse finale s'affiche à la fin de l'installation.
+Le script installe Node.js 22 et l'application (`/opt/f-shop`, données dans `/var/lib/f-shop`), puis crée le service `f-shop`. Il ne prend jamais un port déjà utilisé et choisit un mode selon ce qui occupe le port 80 :
 
-Options : `DOMAIN=mon-domaine.cm`, `EMAIL=moi@exemple.com`, `HTTPS=0`, `SEED=1` (comptes de démo).
+- **port 80 libre** : nginx + certificat HTTPS Let's Encrypt ;
+- **port 80 pris** (Caddy, Apache, Docker…) : l'application est publiée directement sur un port libre (8080 ou suivant), en HTTP ;
+- **Caddy en place et `CADDY=1`** : un bloc de site F-Shop est ajouté au Caddyfile. Le fichier est sauvegardé et validé avant le rechargement, et Caddy fournit le HTTPS.
+
+Le HTTPS est indispensable pour la géolocalisation sur téléphone. Sans nom de domaine, le script utilise `<ip>.sslip.io`, qui pointe automatiquement vers le serveur. À la fin, il vérifie l'accès et affiche l'adresse.
+
+Options : `DOMAIN=mon-domaine.cm`, `EMAIL=moi@exemple.com`, `HTTPS=0`, `CADDY=1`, `SEED=1` (comptes de démo).
 
 - Mise à jour : `bash /opt/f-shop/deploy/update.sh`
 - Journaux : `journalctl -u f-shop -f`
