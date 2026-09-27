@@ -187,6 +187,10 @@ check() { # libellé, url, [options curl]
 for _ in $(seq 1 15); do curl -fsS -o /dev/null "http://127.0.0.1:$APP_PORT/api/shops" 2>/dev/null && break; sleep 1; done
 check "application"      "http://127.0.0.1:$APP_PORT/api/shops"
 [ "$MODE" = "direct" ] && check "adresse publique" "http://$IP:$APP_PORT/api/shops"
+if [ "$MODE" = "caddy" ]; then
+  echo "   Attente du certificat HTTPS de Caddy (jusqu'à 90 s)…"
+  for _ in $(seq 1 30); do curl -fsS -o /dev/null --max-time 5 "$URL/api/shops" 2>/dev/null && break; sleep 3; done
+fi
 [ -n "$URL" ] && check "adresse finale" "$URL/api/shops" -L
 
 echo
@@ -198,6 +202,8 @@ if [ "$ok" = "1" ]; then
   [ "$MODE" = "direct" ] && echo "   Pour le HTTPS (géolocalisation sur téléphone), relancez avec : CADDY=1 bash install.sh"
 else
   echo "⚠️  Certaines vérifications ont échoué."
-  echo "   Si seule l'adresse publique échoue, ouvrez le port $PUBLIC_PORT dans le pare-feu de votre hébergeur."
+  if [ "$MODE" = "direct" ]; then FW="$PUBLIC_PORT"; else FW="80 et 443"; fi
+  echo "   Si seule l'adresse publique échoue, ouvrez le(s) port(s) $FW dans le pare-feu de votre hébergeur."
+  [ "$MODE" = "caddy" ] && echo "   Certificat HTTPS : journalctl -u caddy -n 50 --no-pager | grep -i -E 'sslip|error'"
   echo "   Journaux : journalctl -u f-shop -n 50"
 fi
