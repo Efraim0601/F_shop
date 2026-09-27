@@ -7,7 +7,7 @@ Type=simple
 User=fshop
 WorkingDirectory=/opt/f-shop
 Environment=NODE_ENV=production
-Environment=PORT=3000
+Environment=PORT=__APP_PORT__
 Environment=HOST=127.0.0.1
 Environment=DB_FILE=/var/lib/f-shop/fshop.db
 Environment=UPLOAD_DIR=/var/lib/f-shop/uploads
