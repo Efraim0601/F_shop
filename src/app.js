@@ -41,6 +41,7 @@ function createApp({
   app.use('/api', api);
 
   app.use('/uploads', express.static(uploadDir));
+  app.use('/vendor/leaflet', express.static(path.join(ROOT, 'node_modules', 'leaflet', 'dist')));
   app.use(express.static(path.join(ROOT, 'public')));
 
   // Gestion centralisée des erreurs

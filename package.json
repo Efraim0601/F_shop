@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Efraim0601/F_shop#readme",
   "dependencies": {
     "express": "^4.22.3",
+    "leaflet": "^1.9.4",
     "multer": "^2.4.0"
   },
   "engines": {

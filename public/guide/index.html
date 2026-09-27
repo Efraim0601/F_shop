@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide F-Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+  :root {
+    --paper: #fbf8f3;
+    --card: #ffffff;
+    --ink: #2a221c;
+    --muted: #75685d;
+    --line: #e9dfd2;
+    --brand: #c05a17;
+    --brand-soft: #fbeadc;
+    --leaf: #2b7a66;
+    --leaf-soft: #e1f1ec;
+    --frame: #2a221c;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #1b1714; --card: #25201c; --ink: #efe7de; --muted: #ab9d90; --line: #3a322b;
+      --brand: #ec9152; --brand-soft: #3a2618; --leaf: #62b8a1; --leaf-soft: #1c332d; --frame: #0e0c0a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #1b1714; --card: #25201c; --ink: #efe7de; --muted: #ab9d90; --line: #3a322b;
+    --brand: #ec9152; --brand-soft: #3a2618; --leaf: #62b8a1; --leaf-soft: #1c332d; --frame: #0e0c0a;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--body); }
+  a { color: var(--brand); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
+
+  header.hero { padding-block: 48px 28px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font: 700 .78rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  h1 { font: 800 clamp(2.1rem, 5vw, 3.4rem)/1.05 var(--display); margin: 10px 0 14px; text-wrap: balance; letter-spacing: -.01em; }
+  .lede { max-width: 62ch; color: var(--muted); font-size: 1.1rem; margin: 0; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 22px; font-size: .95rem; }
+  .facts b { color: var(--ink); }
+  .facts span { color: var(--muted); }
+  .url { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .92em; background: var(--brand-soft); color: var(--ink); padding: 2px 7px; border-radius: 5px; overflow-wrap: anywhere; }
+
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; padding-block: 36px 60px; }
+  nav.toc { position: sticky; top: 20px; align-self: start; font-size: .93rem; }
+  nav.toc p { font: 700 .75rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
+  nav.toc p:first-child { margin-top: 0; }
+  nav.toc a { display: block; padding: 4px 0 4px 12px; color: var(--ink); text-decoration: none; border-left: 2px solid var(--line); }
+  nav.toc a:hover { border-left-color: var(--brand); color: var(--brand); }
+
+  section.role { padding-bottom: 28px; margin-bottom: 40px; border-bottom: 1px solid var(--line); }
+  section.role:last-of-type { border-bottom: 0; }
+  .role-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 6px; }
+  h2 { font: 800 clamp(1.6rem, 3.4vw, 2.2rem)/1.15 var(--display); margin: 0; text-wrap: balance; }
+  .tag { font-size: .82rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: var(--brand-soft); color: var(--brand); }
+  .role.nutri .tag { background: var(--leaf-soft); color: var(--leaf); }
+  .role-intro { color: var(--muted); max-width: 62ch; margin: 0 0 24px; }
+
+  .step { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 18px 36px; align-items: start; padding-block: 22px; border-top: 1px dashed var(--line); }
+  .step:first-of-type { border-top: 0; }
+  h3 { font: 700 1.25rem/1.3 var(--display); margin: 0 0 8px; display: flex; gap: 12px; align-items: baseline; }
+  .n { flex: none; font: 800 .95rem/1 var(--display); width: 30px; height: 30px; display: inline-grid; place-items: center; border-radius: 50%; background: var(--brand); color: var(--paper); transform: translateY(-2px); }
+  .role.nutri .n { background: var(--leaf); }
+  .step p { margin: 0 0 10px; max-width: 60ch; }
+  .step ul, .step ol { margin: 0 0 10px; padding-left: 1.2em; max-width: 60ch; }
+  .step li { margin-bottom: 4px; }
+  .tip { font-size: .93rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 8px; padding: 10px 14px; margin: 12px 0 0; max-width: 60ch; }
+  .role.nutri .tip { border-left-color: var(--leaf); }
+
+  .shots { display: grid; gap: 14px; justify-items: center; }
+  figure { margin: 0; width: 100%; max-width: 280px; }
+  .phone { background: var(--frame); border-radius: 26px; padding: 9px; box-shadow: 0 10px 28px rgba(42, 34, 28, .16); }
+  .phone img { display: block; width: 100%; height: auto; border-radius: 18px; }
+  figcaption { font-size: .82rem; color: var(--muted); text-align: center; margin-top: 7px; }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 12px; font-size: .88rem; }
+  .flow span { padding: 3px 10px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); }
+  .flow i { font-style: normal; color: var(--muted); }
+
+  table.accounts { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  .table-scroll { overflow-x: auto; margin: 10px 0 6px; }
+  table.accounts th, table.accounts td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.accounts th { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .9em; }
+
+  dl.faq dt { font-weight: 700; margin-top: 16px; }
+  dl.faq dd { margin: 4px 0 0; color: var(--ink); max-width: 64ch; }
+  .soon { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 14px; }
+  .soon div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .soon b { display: block; font-family: var(--display); margin-bottom: 4px; }
+  .soon p { margin: 0; font-size: .93rem; color: var(--muted); }
+  footer { border-top: 1px solid var(--line); padding-block: 22px 40px; color: var(--muted); font-size: .88rem; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    nav.toc { position: static; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+    nav.toc p { display: none; }
+    nav.toc a { border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; background: var(--card); }
+  }
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .step { grid-template-columns: minmax(0, 1fr); }
+    .shots { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    figure { max-width: 260px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Guide utilisateur</div>
+    <h1>Bien utiliser F-Shop</h1>
+    <p class="lede">F-Shop rassemble au même endroit les menus du jour des vendeuses, les commandes avec la position du client, et le suivi alimentaire proposé par les nutritionnistes. Ce guide montre, écran par écran, comment chaque profil s'en sert.</p>
+    <div class="facts">
+      <div><span>Adresse :</span> <span class="url">https://2.25.123.162.sslip.io</span></div>
+      <div><span>Fonctionne sur :</span> <b>téléphone, tablette, ordinateur</b></div>
+      <div><span>Rien à installer :</span> <b>un navigateur suffit</b></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="Sommaire">
+    <p>Commencer</p>
+    <a href="#demarrer">Créer un compte</a>
+    <p>Par profil</p>
+    <a href="#client">Client</a>
+    <a href="#sante">Patient : suivi santé</a>
+    <a href="#vendeuse">Vendeuse</a>
+    <a href="#nutritionniste">Nutritionniste</a>
+    <a href="#service">Service spécialisé</a>
+    <p>Aide</p>
+    <a href="#questions">Questions fréquentes</a>
+    <a href="#bientot">Bientôt disponible</a>
+  </nav>
+
+  <main>
+    <!-- ================= DÉMARRER ================= -->
+    <section class="role" id="demarrer">
+      <div class="role-head"><h2>Créer un compte et se connecter</h2></div>
+      <p class="role-intro">Chaque personne a un compte avec un profil. Le profil décide des menus que vous voyez en haut de l'écran.</p>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Ouvrir l'application</h3>
+          <p>Allez sur <span class="url">https://2.25.123.162.sslip.io</span>. Sans compte, vous pouvez déjà consulter les menus du jour, la carte et les menus des nutritionnistes.</p>
+          <p class="tip">Sur téléphone, ajoutez la page à l'écran d'accueil (menu du navigateur, puis « Ajouter à l'écran d'accueil ») pour l'ouvrir comme une application.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/01-accueil.jpg" alt="Page d'accueil de F-Shop" loading="lazy"></div><figcaption>Page d'accueil</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">2</span>Créer son compte</h3>
+          <p>Touchez « Créer un compte », choisissez votre profil, puis indiquez votre nom, votre numéro WhatsApp, votre email et un mot de passe d'au moins 6 caractères.</p>
+          <ul>
+            <li><b>Client / patient</b> : pour commander, réserver et être suivi par un nutritionniste.</li>
+            <li><b>Vendeuse / restauratrice</b> : pour publier ses menus et recevoir les commandes.</li>
+            <li><b>Nutritionniste</b> et <b>service spécialisé</b> : pour le suivi des patients et la préparation des menus diététiques.</li>
+          </ul>
+          <p>Ensuite, reconnectez-vous avec « Connexion » (email et mot de passe).</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/02-inscription.jpg" alt="Formulaire de création de compte" loading="lazy"></div><figcaption>Création de compte</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">3</span>Comptes de démonstration</h3>
+          <p>Pour essayer sans rien créer, utilisez un de ces comptes. Le mot de passe est <code>demo123</code> pour tous.</p>
+          <div class="table-scroll">
+            <table class="accounts">
+              <thead><tr><th>Email</th><th>Profil</th></tr></thead>
+              <tbody>
+                <tr><td><code>client@demo.cm</code></td><td>Client / patient</td></tr>
+                <tr><td><code>rose@demo.cm</code></td><td>Vendeuse (Chez Maman Rose)</td></tr>
+                <tr><td><code>nutri@demo.cm</code></td><td>Nutritionniste</td></tr>
+                <tr><td><code>cuisine@demo.cm</code></td><td>Service spécialisé</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="tip">Ces comptes sont publics. Ils seront supprimés avant l'ouverture aux vrais utilisateurs.</p>
+        </div>
+        <div></div>
+      </div>
+    </section>
+
+    <!-- ================= CLIENT ================= -->
+    <section class="role" id="client">
+      <div class="role-head"><h2>Client : trouver un plat et commander</h2><span class="tag">Client</span></div>
+      <p class="role-intro">Voir ce qui est disponible aujourd'hui ou demain, commander en livraison ou à emporter, et suivre sa commande.</p>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Voir les menus du jour</h3>
+          <p>Dans <b>Menus du jour</b>, chaque point de vente affiche son message du jour et les plats disponibles, avec le prix et le nombre de portions restantes.</p>
+          <ul>
+            <li>« Aujourd'hui » ou « Demain » pour changer de jour.</li>
+            <li>« Trier par proximité » pour voir d'abord les points de vente les plus proches (la distance s'affiche en km).</li>
+            <li>Touchez une photo pour l'agrandir.</li>
+          </ul>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/03-menus-du-jour.jpg" alt="Liste des menus du jour" loading="lazy"></div><figcaption>Menus du jour</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">2</span>Remplir son panier</h3>
+          <p>Utilisez les boutons <b>+</b> et <b>−</b> à côté de chaque plat. La barre noire en bas indique le nombre de plats et le total. Touchez <b>Commander</b>.</p>
+          <p class="tip">Un panier ne contient que des plats d'un seul point de vente et d'un seul jour.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/04-panier.jpg" alt="Panier avec deux plats" loading="lazy"></div><figcaption>La barre du panier</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">3</span>Valider : livraison ou retrait</h3>
+          <p>Choisissez le mode :</p>
+          <ul>
+            <li><b>Livraison</b> : touchez « Utiliser ma position actuelle ». Vous pouvez aussi toucher la carte pour placer le point de livraison, puis ajouter un repère (quartier, couleur du portail…).</li>
+            <li><b>Je passe récupérer / manger sur place</b> : pas besoin de position.</li>
+          </ul>
+          <p>Vérifiez le téléphone, ajoutez une note si besoin (« sans piment »), puis <b>Confirmer la commande</b>.</p>
+          <p class="tip">Le navigateur demande l'autorisation d'accéder à votre position : répondez « Autoriser ». La vendeuse reçoit alors le point exact et l'itinéraire.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/05-commande-livraison.jpg" alt="Validation de commande en livraison avec carte" loading="lazy"></div><figcaption>Position de livraison</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">4</span>Suivre ses commandes</h3>
+          <p><b>Mes commandes</b> affiche chaque commande avec son statut, mis à jour par la vendeuse :</p>
+          <div class="flow"><span>En attente</span><i>→</i><span>Confirmée</span><i>→</i><span>En préparation</span><i>→</i><span>En livraison</span><i>→</i><span>Terminée</span></div>
+          <p>Tant qu'elle est « En attente », vous pouvez l'annuler. Pour un retrait, le bouton « M'y rendre » ouvre l'itinéraire.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/06-mes-commandes.jpg" alt="Liste de mes commandes" loading="lazy"></div><figcaption>Mes commandes</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">5</span>Trouver un point de vente sur la carte</h3>
+          <p>Dans <b>Carte</b>, touchez « Me localiser » : les points de vente proches apparaissent avec le nombre de plats du jour. Touchez un point de vente pour voir son menu, son téléphone et le bouton <b>M'y rendre</b>.</p>
+          <p class="tip">Sur ces captures, le fond de carte est simplifié. Dans l'application, la carte affiche les rues (OpenStreetMap).</p>
+        </div>
+        <div class="shots">
+          <figure><div class="phone"><img src="img/07-carte.jpg" alt="Carte des points de vente" loading="lazy"></div><figcaption>Carte</figcaption></figure>
+          <figure><div class="phone"><img src="img/08-point-de-vente.jpg" alt="Fiche d'un point de vente" loading="lazy"></div><figcaption>Fiche du point de vente</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">6</span>Réserver un menu de nutritionniste</h3>
+          <p>L'onglet <b>Menus nutritionniste</b> présente des menus équilibrés (diabète, hypertension…), préparés par un service spécialisé. Ils se prennent <b>sur réservation</b>, avec un nombre de places limité.</p>
+          <p>Touchez <b>Réserver</b>, indiquez le nombre de portions, le mode (retrait ou livraison) et vos allergies éventuelles.</p>
+        </div>
+        <div class="shots">
+          <figure><div class="phone"><img src="img/09-menus-nutritionniste.jpg" alt="Menus proposés par les nutritionnistes" loading="lazy"></div><figcaption>Menus nutritionniste</figcaption></figure>
+          <figure><div class="phone"><img src="img/10-reservation.jpg" alt="Fenêtre de réservation" loading="lazy"></div><figcaption>Réservation</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SANTÉ ================= -->
+    <section class="role nutri" id="sante">
+      <div class="role-head"><h2>Patient : mon suivi santé</h2><span class="tag">Client suivi</span></div>
+      <p class="role-intro">Si un nutritionniste vous suit, l'onglet <b>Mon suivi santé</b> regroupe votre plan, vos rappels, vos consultations et vos messages.</p>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Consulter son plan alimentaire</h3>
+          <p>Le plan indique, pour chaque repas, le jour, l'heure et le contenu conseillé, avec les recommandations générales de votre nutritionniste.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/11-suivi-plan.jpg" alt="Plan alimentaire du patient" loading="lazy"></div><figcaption>Mon plan</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">2</span>Régler ses rappels de repas</h3>
+          <p>Les rappels sont créés par le nutritionniste, mais <b>vous pouvez les adapter</b> : changer l'heure ou le texte, choisir les jours, les désactiver, en ajouter. Touchez <b>Enregistrer</b> après chaque modification.</p>
+          <p class="tip">Touchez « Activer les notifications » et gardez l'application ouverte (même en arrière-plan) pour recevoir les rappels à l'heure.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/12-suivi-rappels.jpg" alt="Liste des rappels de repas" loading="lazy"></div><figcaption>Mes rappels</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">3</span>Demander une consultation à distance</h3>
+          <p>Choisissez le nutritionniste, la date et l'heure souhaitées, et le mode (vidéo, téléphone, messagerie ou présentiel). Ajoutez le motif, puis <b>Envoyer la demande</b>.</p>
+          <p>Quand le nutritionniste confirme, un bouton <b>Rejoindre la consultation</b> apparaît pour la vidéo. Plus bas, la messagerie permet d'échanger avec lui.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/13-suivi-consultation.jpg" alt="Formulaire de demande de consultation" loading="lazy"></div><figcaption>Demande de consultation</figcaption></figure></div>
+      </div>
+    </section>
+
+    <!-- ================= VENDEUSE ================= -->
+    <section class="role" id="vendeuse">
+      <div class="role-head"><h2>Vendeuse : publier ses menus et gérer ses commandes</h2><span class="tag">Vendeuse</span></div>
+      <p class="role-intro">Fini les commandes perdues dans la discussion WhatsApp : tout arrive sur une seule page, avec la position du client.</p>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Créer son point de vente</h3>
+          <p>Dans <b>Mon point de vente</b>, indiquez le nom, une description, le quartier et le téléphone. Cochez « Je propose la livraison » si c'est le cas.</p>
+          <p>Placez votre point de vente sur la carte : « Utiliser ma position » si vous y êtes, ou touchez la carte à l'endroit exact. C'est ce point que les clients verront.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/14-mon-point-de-vente.jpg" alt="Formulaire du point de vente" loading="lazy"></div><figcaption>Mon point de vente</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">2</span>Créer ses plats une seule fois</h3>
+          <p>Dans <b>Mes plats</b>, ajoutez chaque plat que vous savez préparer : nom, prix en FCFA, description et photo. Vous n'aurez plus à les ressaisir : chaque jour, il suffira de cocher ceux du jour.</p>
+          <p>« Modifier » change le prix ou la photo ; « Retirer » enlève un plat du catalogue sans effacer les anciennes commandes.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/15-mes-plats.jpg" alt="Catalogue des plats" loading="lazy"></div><figcaption>Mes plats</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">3</span>Choisir le menu du jour</h3>
+          <p>Dans <b>Menu du jour</b>, choisissez le jour (aujourd'hui, demain ou une date), cochez les plats disponibles, puis <b>Publier la sélection</b>.</p>
+          <ul>
+            <li><b>Portions</b> : indiquez combien vous en avez préparé. Quand tout est vendu, les commandes s'arrêtent seules. Laissez vide pour ne pas limiter.</li>
+            <li><b>Reprendre le menu de la veille</b> recopie la sélection d'hier en un geste.</li>
+          </ul>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/16-menu-du-jour.jpg" alt="Sélection des plats du jour" loading="lazy"></div><figcaption>Menu du jour</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">4</span>Publier un message ou une capture</h3>
+          <p>Sur la même page, écrivez un message (« Livraison dès 12h ! ») et ajoutez si vous voulez une photo ou la capture d'écran de votre menu, comme sur WhatsApp. Elle s'affiche en haut de votre menu chez les clients.</p>
+          <p>« Voir comme un client » montre exactement ce que vos clients voient.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/17-publication.jpg" alt="Publication du jour avec message et image" loading="lazy"></div><figcaption>Publication du jour</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">5</span>Traiter les commandes</h3>
+          <p><b>Commandes</b> affiche en haut le nombre de commandes, le total et le nombre de portions par plat. La page vérifie seule les nouvelles commandes toutes les 30 secondes.</p>
+          <p>Chaque commande donne le nom du client, les plats, la note, son téléphone (appel ou WhatsApp) et, pour une livraison, <b>Voir la position</b> et <b>Itinéraire</b>. Un bouton fait avancer la commande d'une étape :</p>
+          <div class="flow"><span>Confirmer</span><i>→</i><span>En préparation</span><i>→</i><span>En livraison / prête</span><i>→</i><span>Terminée</span></div>
+          <p>Filtrez par date ou par statut ; « Toutes dates » affiche l'historique.</p>
+        </div>
+        <div class="shots">
+          <figure><div class="phone"><img src="img/18-commandes-recues.jpg" alt="Résumé des commandes reçues" loading="lazy"></div><figcaption>Résumé du jour</figcaption></figure>
+          <figure><div class="phone"><img src="img/19-commande-detail.jpg" alt="Détail d'une commande en livraison" loading="lazy"></div><figcaption>Commande en livraison</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NUTRITIONNISTE ================= -->
+    <section class="role nutri" id="nutritionniste">
+      <div class="role-head"><h2>Nutritionniste : suivre ses patients à distance</h2><span class="tag">Nutritionniste</span></div>
+      <p class="role-intro">Plans personnalisés, rappels, consultations et menus sur réservation, sans tout suivre à la main.</p>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Ajouter ses patients</h3>
+          <p>Dans <b>Patients</b>, saisissez l'email du compte du patient puis <b>Ajouter</b>. Le patient doit d'abord avoir créé un compte client. Un patient qui vous demande une consultation est ajouté automatiquement.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/20-patients.jpg" alt="Liste des patients" loading="lazy"></div><figcaption>Mes patients</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">2</span>Ouvrir la fiche d'un patient</h3>
+          <p>Touchez un patient pour voir ses coordonnées, vos <b>notes de suivi</b> (visibles de vous seul) et ses plans alimentaires. De là, vous pouvez aussi planifier une consultation.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/21-dossier-plan.jpg" alt="Fiche patient avec son plan" loading="lazy"></div><figcaption>Fiche patient</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">3</span>Créer un plan personnalisé</h3>
+          <p>Donnez un titre et des dates, puis remplissez les repas : jour (ou tous les jours), repas, heure et contenu. « Ajouter un repas » crée une ligne de plus.</p>
+          <p>Laissez cochée <b>Créer les rappels de prise de repas</b> : chaque repas avec une heure devient un rappel chez le patient.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/22-nouveau-plan.jpg" alt="Formulaire de nouveau plan" loading="lazy"></div><figcaption>Nouveau plan</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">4</span>Ajuster les rappels et échanger</h3>
+          <p>Sous le plan, vous voyez et modifiez les rappels du patient, comme lui. Plus bas, la <b>messagerie</b> permet d'échanger (glycémie du matin, questions sur le plan…).</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/23-rappels-messages.jpg" alt="Rappels du patient" loading="lazy"></div><figcaption>Rappels du patient</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">5</span>Gérer les consultations</h3>
+          <p>Dans <b>Consultations</b>, planifiez un rendez-vous ou traitez les demandes des patients. Pour une vidéo sans lien, un lien Jitsi (gratuit, sans installation) est créé quand vous confirmez.</p>
+          <p>Après la consultation, rédigez le <b>compte rendu</b> et marquez-la « Terminée » : le patient le retrouve dans son espace.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/24-consultations.jpg" alt="Gestion d'une consultation" loading="lazy"></div><figcaption>Consultation</figcaption></figure></div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3><span class="n">6</span>Proposer des menus sur réservation</h3>
+          <p>Dans <b>Mes menus</b>, décrivez le menu (composition, public cible, calories), fixez le prix, la date de service et le nombre de places, puis choisissez le <b>service qui le prépare</b>. Il apparaît aussitôt dans l'onglet « Menus nutritionniste » des clients.</p>
+          <p><b>Réservations</b> liste qui a réservé quoi.</p>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/25-mes-menus.jpg" alt="Création d'un menu diététique" loading="lazy"></div><figcaption>Mes menus</figcaption></figure></div>
+      </div>
+    </section>
+
+    <!-- ================= SERVICE ================= -->
+    <section class="role nutri" id="service">
+      <div class="role-head"><h2>Service spécialisé : préparer les réservations</h2><span class="tag">Cuisine</span></div>
+      <p class="role-intro">La cuisine qui prépare les menus diététiques voit uniquement les réservations qui la concernent.</p>
+      <div class="step">
+        <div>
+          <h3><span class="n">1</span>Suivre et préparer</h3>
+          <p><b>Réservations à préparer</b> affiche pour chaque réservation le menu, le jour, le nombre de portions, le client, son téléphone, le mode (retrait ou livraison avec position) et les allergies signalées.</p>
+          <div class="flow"><span>Confirmer</span><i>→</i><span>Prête</span><i>→</i><span>Remise / livrée</span></div>
+        </div>
+        <div class="shots"><figure><div class="phone"><img src="img/26-reservations-service.jpg" alt="Réservations à préparer" loading="lazy"></div><figcaption>Réservations à préparer</figcaption></figure></div>
+      </div>
+    </section>
+
+    <!-- ================= QUESTIONS ================= -->
+    <section class="role" id="questions">
+      <div class="role-head"><h2>Questions fréquentes</h2></div>
+      <dl class="faq">
+        <dt>« Impossible de récupérer votre position » : que faire ?</dt>
+        <dd>Autorisez la localisation pour ce site dans votre navigateur et activez le GPS du téléphone. Vous pouvez aussi toucher la carte pour placer le point à la main, ou écrire l'adresse et un repère.</dd>
+        <dt>Je ne reçois pas mes rappels de repas.</dt>
+        <dd>Activez les notifications dans « Mon suivi santé » et gardez l'application ouverte, même en arrière-plan. Les rappels quand l'application est fermée font partie des prochaines évolutions.</dd>
+        <dt>Un plat n'apparaît pas chez les clients.</dt>
+        <dd>Vérifiez dans « Menu du jour » qu'il est coché pour la bonne date et que ses portions ne sont pas épuisées (colonne « Reste »).</dd>
+        <dt>Comment le client paie-t-il ?</dt>
+        <dd>Pour l'instant, le paiement se fait directement avec la vendeuse (espèces ou mobile money). Le paiement Orange Money / MTN MoMo dans l'application est prévu.</dd>
+        <dt>J'ai oublié mon mot de passe.</dt>
+        <dd>Contactez l'administrateur de la plateforme. La réinitialisation autonome arrive avec l'espace administrateur.</dd>
+      </dl>
+    </section>
+
+    <section class="role" id="bientot">
+      <div class="role-head"><h2>Bientôt disponible</h2></div>
+      <p class="role-intro">Ces fonctions sont validées et en cours de réalisation, dans cet ordre.</p>
+      <div class="soon">
+        <div><b>Espace administrateur</b><p>Création et gestion des comptes (cuisiniers, nutritionnistes, clients, vendeuses), désactivation, réinitialisation des mots de passe.</p></div>
+        <div><b>Prise de rendez-vous en un geste</b><p>Le patient choisit un créneau libre dans l'agenda du nutritionniste, qui l'accepte en un clic.</p></div>
+        <div><b>Dossier patient complet</b><p>Fiche santé, mesures (poids, glycémie, tension) avec courbes, et tout l'historique du suivi.</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap"><a href="/">← Retour à l'application</a> · F-Shop · guide utilisateur, version du 27 septembre 2026. Les photos de plats des captures sont des illustrations.</div>
+</footer>
+</body>
+</html>

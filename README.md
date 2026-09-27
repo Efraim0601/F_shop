@@ -56,7 +56,7 @@ Options : `DOMAIN=mon-domaine.cm`, `EMAIL=moi@exemple.com`, `HTTPS=0`, `CADDY=1`
 - `src/routes/` — API REST : `auth`, `shops` (points de vente, plats, menu du jour, publications), `orders`, `nutrition` (patients, plans, rappels, consultations, messages, menus diététiques, réservations)
 - `public/` — interface web mobile en JavaScript natif, cartes OpenStreetMap via Leaflet
 
-Les cartes utilisent les tuiles OpenStreetMap ; sans connexion à `cdn.jsdelivr.net`, l'application fonctionne sans la carte (la géolocalisation du téléphone reste utilisée).
+Les cartes utilisent les tuiles OpenStreetMap ; la bibliothèque Leaflet est servie par l'application elle-même (la géolocalisation du téléphone reste utilisée).
 
 ## Pistes suivantes
 

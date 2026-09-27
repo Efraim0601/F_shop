@@ -207,6 +207,7 @@ async function render() {
   $('#userbox').innerHTML = state.user
     ? `<span>${esc(state.user.name)}</span><button id="logout">Déconnexion</button>`
     : '<a class="btn" href="#/login">Connexion</a><a class="btn primary" href="#/inscription">Créer un compte</a>';
+  $('#userbox').insertAdjacentHTML('afterbegin', '<a href="/guide/" target="_blank" rel="noopener">❓ Guide</a>');
   $('#logout')?.addEventListener('click', () => logout());
   const view = ROUTES[path] || viewHome;
   const app = $('#app');

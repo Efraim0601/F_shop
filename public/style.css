@@ -18,7 +18,7 @@ h1 { font-size: 1.4rem; margin: 0 0 12px; }
 h2 { font-size: 1.15rem; margin: 20px 0 10px; }
 h3 { font-size: 1rem; margin: 0 0 6px; }
 
-.topbar { position: sticky; top: 0; z-index: 1000; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
+.topbar { position: sticky; top: 0; z-index: 1100; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
   padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--line); }
 .brand { font-weight: 700; font-size: 1.15rem; text-decoration: none; color: var(--ink); }
 #nav { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; }
@@ -92,3 +92,17 @@ table { width: 100%; border-collapse: collapse; }
 td, th { text-align: left; padding: 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .days label { display: inline-flex; gap: 3px; align-items: center; margin-right: 6px; }
 .days input { width: auto; }
+
+/* Téléphone : menu sur une seule ligne défilante */
+@media (max-width: 640px) {
+  .topbar { padding: 8px 12px; gap: 6px 10px; }
+  #userbox { margin-left: auto; font-size: .85rem; }
+  #userbox .btn, #userbox button { padding: 5px 9px; }
+  #nav { order: 3; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  #nav::-webkit-scrollbar { display: none; }
+  #nav a { white-space: nowrap; }
+  main { padding: 12px; }
+}
+
+/* Laisse la place de la barre de menu fixe lors des défilements */
+main * { scroll-margin-top: 130px; }
