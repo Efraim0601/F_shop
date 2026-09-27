@@ -1,0 +1,28 @@
+{
+  "name": "f-shop",
+  "version": "1.0.0",
+  "description": "Plateforme de menus et commandes de repas (vendeuses, nutritionnistes, clients)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "seed": "node --disable-warning=ExperimentalWarning scripts/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Efraim0601/F_shop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Efraim0601/F_shop/issues"
+  },
+  "homepage": "https://github.com/Efraim0601/F_shop#readme",
+  "dependencies": {
+    "express": "^4.22.3",
+    "multer": "^2.4.0"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "private": true
+}
