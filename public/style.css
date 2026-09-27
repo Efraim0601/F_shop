@@ -106,3 +106,68 @@ td, th { text-align: left; padding: 6px; border-bottom: 1px solid var(--line); v
 
 /* Laisse la place de la barre de menu fixe lors des défilements */
 main * { scroll-margin-top: 130px; }
+
+/* ================= Mobile / tactile ================= */
+/* Champs à 16px : évite le zoom automatique de l'iPhone au toucher d'un champ */
+input, select, textarea { font-size: 16px; }
+/* Cibles tactiles confortables (≈ 44px) et pas de délai au toucher */
+button, .btn, input:not([type=checkbox]):not([type=radio]):not([type=file]), select { min-height: 44px; }
+button, .btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; touch-action: manipulation; }
+input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--brand); vertical-align: middle; }
+input[type=file] { padding: 9px; }
+.qty button { min-width: 44px; padding: 0; font-size: 1.2rem; }
+.days label { padding: 6px 4px; }
+/* Rangées de champs : passent à la ligne au lieu de déborder */
+.inline { flex-wrap: wrap; }
+.inline > * { flex: 1 1 150px; min-width: 0; }
+/* Tableaux larges : défilement horizontal dans leur propre cadre */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll > table { min-width: 100%; }
+img { max-width: 100%; }
+dialog { overscroll-behavior: contain; }
+#modal-body { overflow-wrap: anywhere; }
+#cartbar { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+
+@media (max-width: 640px) {
+  #nav a { padding: 10px 12px; }
+  h1 { font-size: 1.25rem; }
+  .card { padding: 12px; }
+  .grid { grid-template-columns: 1fr; }
+  #toasts { left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .toast { max-width: none; }
+  dialog { width: 100vw; max-width: 100vw; max-height: 92dvh; margin: auto auto 0; border-radius: 16px 16px 0 0; }
+  #modal-body { padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .map { height: 300px; }
+}
+/* Éditeur de repas du plan : une carte par repas au lieu d'un tableau (téléphone, tablette) */
+@media (max-width: 900px) {
+  /* Éditeur de repas du plan : une carte par repas au lieu d'un tableau */
+  #items, #items tbody { display: block; }
+  #items tr:first-child { display: none; }
+  #items tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  #items td { padding: 0; border: 0; }
+  #items td:nth-child(4) { grid-column: 1 / -1; order: 5; }
+  #items td:nth-child(5) { justify-self: end; }
+}
+/* Paysage sur téléphone : la barre ne reste pas collée pour garder de la hauteur */
+@media (max-height: 480px) and (orientation: landscape) {
+  .topbar { position: static; }
+  .map { height: 220px; }
+}
+
+@media (max-width: 640px) {
+  #userbox .who { display: none; }
+  /* Menu du jour : une ligne par plat, lisible sans défilement horizontal */
+  #daily, #daily tbody { display: block; }
+  #daily tr:first-child { display: none; }
+  #daily tr { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "chk name price" "chk qty rest"; gap: 4px 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  #daily td { padding: 0; border: 0; }
+  #daily td:nth-child(1) { grid-area: chk; }
+  #daily td:nth-child(2) { grid-area: name; font-weight: 600; }
+  #daily td:nth-child(3) { grid-area: price; color: var(--brand); font-weight: 700; }
+  #daily td:nth-child(4) { grid-area: qty; }
+  #daily td:nth-child(4)::before { content: "Portions "; color: var(--muted); font-size: .9rem; }
+  #daily td:nth-child(4) input { display: inline-block; }
+  #daily td.remaining { grid-area: rest; color: var(--muted); font-size: .9rem; }
+  #daily td.remaining:not(:empty)::before { content: "Reste "; }
+}

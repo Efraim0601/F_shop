@@ -205,21 +205,35 @@ async function render() {
     .map(([href, label, cls]) => `<a href="${href}" class="${cls || ''} ${href === `#${path}` ? 'active' : ''}">${label}</a>`)
     .join('');
   $('#userbox').innerHTML = state.user
-    ? `<span>${esc(state.user.name)}</span><button id="logout">Déconnexion</button>`
+    ? `<span class="who">${esc(state.user.name)}</span><button id="logout">Déconnexion</button>`
     : '<a class="btn" href="#/login">Connexion</a><a class="btn primary" href="#/inscription">Créer un compte</a>';
   $('#userbox').insertAdjacentHTML('afterbegin', '<a href="/guide/" target="_blank" rel="noopener">❓ Guide</a>');
   $('#logout')?.addEventListener('click', () => logout());
+  // Sur téléphone, le menu défile : on amène l'onglet actif à l'écran
+  $('#nav a.active')?.scrollIntoView({ block: 'nearest', inline: 'center' });
   const view = ROUTES[path] || viewHome;
   const app = $('#app');
   app.innerHTML = '<p class="muted">Chargement…</p>';
   try {
     await view(app, params);
+    wrapTables(app);
   } catch (e) {
     app.innerHTML = `<div class="card"><p>${esc(e.message)}</p></div>`;
   }
 }
 
 window.addEventListener('hashchange', render);
+
+// Met chaque tableau dans un cadre défilant pour ne jamais élargir la page sur téléphone
+function wrapTables(root) {
+  $$('table', root).forEach((t) => {
+    if (t.id === 'items' || t.id === 'daily' || t.parentElement.classList.contains('table-scroll')) return;
+    const box = document.createElement('div');
+    box.className = 'table-scroll';
+    t.replaceWith(box);
+    box.append(t);
+  });
+}
 
 function needRole(app, ...roles) {
   if (!state.user) {
@@ -280,10 +294,10 @@ function viewRegister(app) {
             <option value="nutritionist">Nutritionniste</option>
             <option value="service">Service spécialisé (cuisine diététique)</option>
           </select></label>
-        <label>Nom complet<input name="name" required></label>
-        <label>Téléphone (WhatsApp)<input name="phone" type="tel"></label>
-        <label>Email<input name="email" type="email" required></label>
-        <label>Mot de passe (6 caractères min.)<input name="password" type="password" minlength="6" required></label>
+        <label>Nom complet<input name="name" required autocomplete="name"></label>
+        <label>Téléphone (WhatsApp)<input name="phone" type="tel" inputmode="tel" autocomplete="tel"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <label>Mot de passe (6 caractères min.)<input name="password" type="password" minlength="6" required autocomplete="new-password"></label>
         <button class="primary">Créer mon compte</button>
       </form></div>`;
   $('#f').addEventListener('submit', async (e) => {
@@ -401,7 +415,7 @@ function checkout() {
         <div id="co-map" class="map small"></div>
         <label>Précisions d'adresse (quartier, repère…)<input name="address"></label>
       </div>
-      <label>Téléphone<input name="phone" type="tel" value="${esc(state.user.phone || '')}"></label>
+      <label>Téléphone<input name="phone" type="tel" inputmode="tel" autocomplete="tel" value="${esc(state.user.phone || '')}"></label>
       <label>Note pour la vendeuse<textarea name="note" rows="2"></textarea></label>
       <div class="row"><button class="primary">Confirmer la commande</button><button type="button" data-close>Annuler</button></div>
     </form>`, (root) => {
@@ -834,11 +848,11 @@ async function viewDaily(app, params) {
       <div class="row">${shopSelector(shops, shop.id)}${daySwitch(date)}<input type="date" id="dp" value="${date}" style="width:auto"></div></div>
     <div class="card"><h3>Plats disponibles ce jour</h3>
       <p class="muted">Cochez les plats du jour. Indiquez le nombre de portions pour arrêter les commandes automatiquement quand tout est vendu (vide = illimité).</p>
-      ${dishes.length ? `<table><tr><th></th><th>Plat</th><th>Prix</th><th>Portions</th><th>Reste</th></tr>
+      ${dishes.length ? `<table id="daily"><tr><th></th><th>Plat</th><th>Prix</th><th>Portions</th><th>Reste</th></tr>
         ${dishes.map((d) => `<tr><td><input type="checkbox" data-dish="${d.id}" style="width:auto" ${sel.has(d.id) ? 'checked' : ''}></td>
           <td>${esc(d.name)}</td><td>${money(d.price)}</td>
-          <td><input type="number" min="0" data-qty="${d.id}" value="${sel.get(d.id)?.quantity ?? ''}" style="width:90px"></td>
-          <td>${sel.has(d.id) ? (sel.get(d.id).remaining ?? '∞') : ''}</td></tr>`).join('')}
+          <td><input type="number" inputmode="numeric" min="0" data-qty="${d.id}" value="${sel.get(d.id)?.quantity ?? ''}" style="width:76px"></td>
+          <td class="remaining">${sel.has(d.id) ? (sel.get(d.id).remaining ?? '∞') : ''}</td></tr>`).join('')}
       </table>
       <div class="row" style="margin-top:8px"><button class="primary" id="save">Publier la sélection</button>
         <button id="copy">Reprendre le menu de la veille</button></div>`
@@ -1017,6 +1031,7 @@ async function patientDetail(el, p) {
   }));
   remindersSection($('#prem', el), p.id);
   chatSection($('#pchat', el), p.id);
+  wrapTables(el);
 }
 
 async function viewConsultations(app, params) {
